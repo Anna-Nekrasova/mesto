@@ -1,0 +1,13 @@
+.form__content {
+    border: 0;
+    margin: 0 auto 18px;
+    padding: 0;
+    max-width: 358px;
+}
+
+@media all and (max-width: 600px) {
+    .form__content {
+        max-width: 238px;
+        margin-bottom: 15px;
+    }
+}

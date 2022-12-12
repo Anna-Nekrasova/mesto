@@ -1,0 +1,9 @@
+.profile__name {
+    display: flex;
+}
+
+@media all and (max-width: 600px) {
+    .profile__name {
+        justify-content: center;
+    }
+} 

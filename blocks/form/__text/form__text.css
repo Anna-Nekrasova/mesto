@@ -1,0 +1,18 @@
+.form__text {
+    border: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
+    width: 358px;
+    margin: 0 auto 30px;
+    padding-bottom: 13px;
+}
+
+@media all and (max-width: 600px) {
+    .form__text {
+        width: 238px;
+    }
+}
