@@ -1,20 +1,20 @@
 .elements__like {
-    margin: 30px 20px 0 0;
-    width: 22px;
+    margin: 26px 20px 0 0;
+    min-width: 22px;
     max-height: 19px;
-    background-image: url(../../../images/like.png);
+    background-image: url(../../../images/like.svg);
     background-repeat: no-repeat;
     background-position: center center;
     border: 0;
-    background-color: #fff;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .elements__like:hover {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: pointer;
 }
 
 .elements__like:focus {
     opacity: 1;
-    background-image: url(../../../images/activelike.png);
+    background-image: url(../../../images/activelike.svg);
 }

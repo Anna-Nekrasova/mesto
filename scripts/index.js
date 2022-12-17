@@ -5,34 +5,32 @@ let infoProfile = profile.querySelector('.profile__info');
 let titleProfile = infoProfile.querySelector('.profile__title');
 let subtitleProfile = infoProfile.querySelector('.profile__subtitle');
 let editProfile = infoProfile.querySelector('.profile__edit');
-let formPage = page.querySelector('.form');
-let closeForm = formPage.querySelector('.form__close');
-let contentForm = formPage.querySelector('.form__content');
-let nameForm = contentForm.querySelector('.form__text_name');
-let aboutForm = contentForm.querySelector('.form__text_about');
-let saveForm = formPage.querySelector('.form__save');
+let popupPage = page.querySelector('.popup');
+let closePopup = popupPage.querySelector('.popup__close');
+let contentPopup = popupPage.querySelector('.popup__content');
+let namePopup = contentPopup.querySelector('.popup__text_type_name');
+let aboutPopup = contentPopup.querySelector('.popup__text_type_about');
+let formPopup = popupPage.querySelector('.popup__form');
 
 
-
-
-function formOpened() {
-    formPage.classList.add('form__opened');
-    nameForm.value = titleProfile.textContent;
-    aboutForm.value = subtitleProfile.textContent;
+function popupOpened() {
+    popupPage.classList.add('popup_opened');
+    namePopup.value = titleProfile.textContent;
+    aboutPopup.value = subtitleProfile.textContent;
 };
 
-function formClosed() {
-    formPage.classList.remove('form__opened');
+function popupClosed() {
+    popupPage.classList.remove('popup_opened');
 };
 
 
-function formSaved (evt) {
+function popupSaved (evt) {
     evt.preventDefault();
-    titleProfile.textContent = nameForm.value;
-    subtitleProfile.textContent = aboutForm.value;
-    formPage.classList.remove('form__opened');
+    titleProfile.textContent = namePopup.value;
+    subtitleProfile.textContent = aboutPopup.value;
+    popupPage.classList.remove('popup_opened');
 };
 
-editProfile.addEventListener('click', formOpened);
-closeForm.addEventListener('click', formClosed);
-formPage.addEventListener('submit', formSaved);
+editProfile.addEventListener('click', popupOpened);
+closePopup.addEventListener('click', popupClosed);
+formPopup.addEventListener('submit', popupSaved);
