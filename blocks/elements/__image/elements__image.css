@@ -5,3 +5,7 @@
     overflow: hidden;
     object-position: center;
 }
+
+.elements__image:hover {
+    cursor: pointer;
+}

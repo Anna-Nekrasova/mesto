@@ -13,8 +13,3 @@
     opacity: 0.5;
     cursor: pointer;
 }
-
-.elements__like:focus {
-    opacity: 1;
-    background-image: url(../../../images/activelike.svg);
-}
