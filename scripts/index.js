@@ -15,11 +15,28 @@ const formPopup = editPage.querySelector('.popup__form');
 //Универсальная функция открытия и закрытия попапа
 function openPopup (popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keyup', closePopupEsc);
+  document.addEventListener('click', closePopupOverlay);
 }
 
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
 }
+
+//Закрытие попапа Esc
+const closePopupEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_opened');
+    closePopup(activePopup);
+  };
+};
+
+//Закрытие попапа overlay
+const closePopupOverlay = (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup(evt.target);
+  };
+};
 
 //Попап редактирования профиля
 function openEditPagePopup() {
@@ -142,10 +159,3 @@ function savePopupNewCard (evt) {
 addProfile.addEventListener('click', openPopupNewCard);
 closeNewCardButton.addEventListener('click', closePopupNewCard);
 formNewCardPopup.addEventListener('submit', savePopupNewCard);
-
-
-
-
-
-
-
