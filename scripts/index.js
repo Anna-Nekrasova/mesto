@@ -15,7 +15,6 @@ const formPopup = editingPage.querySelector('.popup__form');
 function openPopup (popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
-  popup.addEventListener('click', closePopupOverlay);
 }
 
 function closePopup (popup) {
@@ -37,6 +36,10 @@ const closePopupOverlay = (evt) => {
     closePopup(evt.target);
   };
 };
+
+document.querySelectorAll('.popup').forEach( popup => {
+  popup.addEventListener('mousedown', closePopupOverlay); 
+});
 
 //Попап редактирования профиля
 function openEditingPagePopup() {
