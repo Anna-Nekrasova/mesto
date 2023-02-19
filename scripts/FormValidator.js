@@ -9,7 +9,7 @@ export default class FormValidator {
         this._formElement = formElement;
         this._buttonElement = formElement.querySelector(this._submitButtonSelector);
         this._inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-        this._formList = Array.from(document.querySelectorAll(this._formSelector));
+        this._formList = Array.from(document.querySelector(this._formSelector));
     }
 
     _showError(inputElement, errorMessage) {
@@ -40,6 +40,15 @@ export default class FormValidator {
             return !inputElement.validity.valid;
         });
     }
+
+    resetValidation() {
+        this._toggleButtonState();
+  
+        this._inputList.forEach((inputElement) => {
+          this._hideError(inputElement)
+        });
+    }
+    
 
     _toggleButtonState() {
         if (this._hasInvalidInput()) {
