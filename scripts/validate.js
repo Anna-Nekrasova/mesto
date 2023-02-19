@@ -1,4 +1,3 @@
-//Валидация форм
 const obj = {
   formSelector: '.popup__form',
   inputSelector: '.popup__text',
@@ -8,7 +7,9 @@ const obj = {
   errorClass: 'popup__error',
 };
 
-function showError(formElement, inputElement, errorMessage, obj) {
+export { obj };
+
+/*function showError(formElement, inputElement, errorMessage, obj) {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add(obj.inputErrorClass);
   errorElement.textContent = errorMessage;
@@ -65,4 +66,5 @@ function toggleButtonState(inputList, buttonElement, obj) {
   };
 };
 
-enableValidation(obj);
+
+enableValidation(obj);*/

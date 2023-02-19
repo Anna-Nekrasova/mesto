@@ -1,3 +1,8 @@
+import { initialCard } from "./cards.js";
+import { obj } from "./validate.js";
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
 const page = document.querySelector('.page');
 const contentPage = page.querySelector('.content');
 const profile = contentPage.querySelector('.profile');
@@ -10,6 +15,7 @@ const closingPopupButton = editingPage.querySelector('.popup__close');
 const namePopup = editingPage.querySelector('.popup__text_type_name');
 const aboutPopup = editingPage.querySelector('.popup__text_type_about');
 const formPopup = editingPage.querySelector('.popup__form');
+
 
 //Универсальная функция открытия и закрытия попапа
 function openPopup (popup) {
@@ -63,55 +69,19 @@ editingProfile.addEventListener('click', openEditingPagePopup);
 closingPopupButton.addEventListener('click', closeEditingPagePopup);
 formPopup.addEventListener('submit', saveEditingPagePopup);
 
-//Новые карточки, кнопки удаления и лайков
 const elementsContent = contentPage.querySelector('.elements');
-const templateContent = contentPage
-    .querySelector('.template')
-    .content
-    .querySelector('.elements__item');
-
 const picPage = page.querySelector('.popup_type_pic');
 const imagePicPopup = picPage.querySelector('.popup__image');
 const namePicPopup = picPage.querySelector('.popup__name');
 const closingPicPopup = picPage.querySelector('.popup__close');
 
-
-function createElement (initialCard) {
-    const element = templateContent.cloneNode(true);
-
-    const elementName = element.querySelector('.elements__title');
-    elementName.textContent = initialCard.name;
-
-    const elementLink = element.querySelector('.elements__image');
-    elementLink.src = initialCard.link;
-    elementLink.alt = initialCard.name;
-
-    const deletionButton = element.querySelector('.elements__delete');
-    const deleteElements = () => {
-      element.remove();
-    };
-
-    deletionButton.addEventListener('click',deleteElements);
-
-    const likeButton = element.querySelector('.elements__like');
-    const likeElements = () => {
-      likeButton.classList.toggle('elements__like_on');
-    };
-
-    likeButton.addEventListener('click',likeElements);
-    
-    //Попап картинки - открытие
-    const openImagePopup = () => {
-      openPopup(picPage);
-      imagePicPopup.src = initialCard.link;
-      imagePicPopup.alt = initialCard.name;
-      namePicPopup.textContent = initialCard.name;
-    }
-
-    elementLink.addEventListener('click', openImagePopup);
-
-    return element;
-};
+//Попап картинки - открытие
+const openImagePopup = (name, link) => {
+  openPopup(picPage);
+  imagePicPopup.src = link;
+  imagePicPopup.alt = name;
+  namePicPopup.textContent = name;
+}
 
 //Попап картинки - закрытие
 const closeImagePopup = () => {
@@ -120,10 +90,12 @@ const closeImagePopup = () => {
 
 closingPicPopup.addEventListener('click', closeImagePopup);
 
+//Новые карточки
 function renderElements () {
     initialCard.forEach(item => {
-        const elementHtml = createElement(item);
-        elementsContent.append(elementHtml);
+      const cardElement = new Card(item, '.template', openImagePopup);
+      const cardCreated = cardElement.generateCard();
+      elementsContent.append(cardCreated);
     });
 };
 
@@ -154,13 +126,19 @@ function savePopupNewCard (evt) {
       name: titlePopup.value,
       link: linkPopup.value
     }
-    const newCard = createElement(contentNewCard);
-    elementsContent.prepend(newCard);
+    
+    const newCardElement = new Card(contentNewCard, '.template', openImagePopup);
+    const newCardCreated = newCardElement.generateCard();
+    elementsContent.prepend(newCardCreated);
     closePopup(newCardPage);
     titlePopup.value = '';
     linkPopup.value = '';
-    enableValidation(obj);
 };
+
+const validatorEditing = new FormValidator(obj, formPopup);
+const validatorNewCard = new FormValidator(obj, formNewCardPopup);
+validatorEditing.enableValidation();
+validatorNewCard.enableValidation();
 
 additionProfile.addEventListener('click', openPopupNewCard);
 closingNewCardButton.addEventListener('click', closePopupNewCard);
