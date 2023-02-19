@@ -60,6 +60,4 @@ _likeElements() {
 _openImage() {
     this._openImagePopup(this._name, this._link);
 }
-
-
 };
