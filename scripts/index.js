@@ -2,6 +2,7 @@ import { initialCard } from "./cards.js";
 import { obj } from "./validate.js";
 import Card from "./Card.js";
 import FormValidator from "./FormValidator.js";
+import Section from "./Section.js";
 
 const page = document.querySelector('.page');
 const contentPage = page.querySelector('.content');
@@ -105,11 +106,12 @@ closingPicPopup.addEventListener('click', closeImagePopup);
 
 //Универсальная функция создания карточки
 function createCard(data) {
+  console.log(data);
   const cardElement = new Card(data, '.template', openImagePopup);
   return cardElement.generateCard();
 }
 
-//Новые карточки
+/*//Новые карточки
 function renderElements () {
     initialCard.forEach(item => {
       const cardCreated = createCard(item);
@@ -117,7 +119,21 @@ function renderElements () {
     });
 };
 
-renderElements ();
+renderElements ();*/
+
+const section = new Section(
+  {
+    items: initialCard,
+    renderer: (item) => {
+      console.log(item);
+      const cardCreated = createCard(item);
+      section.addItem(cardCreated);
+    }
+  },
+  '.template'
+);
+
+section.renderItems();
 
 //Попап добавления карточки
 function openPopupNewCard() {
@@ -145,6 +161,7 @@ function savePopupNewCard (evt) {
     evt.target.reset();
 };
 
+//Слушатели
 additionProfile.addEventListener('click', openPopupNewCard);
 closingNewCardButton.addEventListener('click', closePopupNewCard);
 formNewCardPopup.addEventListener('submit', savePopupNewCard);
