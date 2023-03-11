@@ -1,8 +1,11 @@
-import { initialCard } from "./cards.js";
-import { obj } from "./validate.js";
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
-import Section from "./Section.js";
+import { initialCard } from "../scripts/cards.js";
+import { obj } from "../scripts/validate.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import UserInfo from "../components/UserInfo.js";
 
 const page = document.querySelector('.page');
 const contentPage = page.querySelector('.content');
@@ -30,7 +33,7 @@ const validatorNewCard = new FormValidator(obj, formNewCardPopup);
 validatorEditing.enableValidation();
 validatorNewCard.enableValidation();
 
-//Универсальная функция открытия и закрытия попапа
+/*//Универсальная функция открытия и закрытия попапа
 function openPopup (popup) {
   popup.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
@@ -81,7 +84,29 @@ function saveEditingPagePopup (evt) {
 
 editingProfile.addEventListener('click', openEditingPagePopup);
 closingPopupButton.addEventListener('click', closeEditingPagePopup);
-formPopup.addEventListener('submit', saveEditingPagePopup);
+formPopup.addEventListener('submit', saveEditingPagePopup);*/
+
+const userInfo = new UserInfo({
+  name: titleProfile,
+  about: subtitleProfile,
+})
+
+
+function saveProfilePopup(data) {
+  userInfo.setUserInfo({
+    userName: data.userName,
+    userAbout: data.userAbout,
+   });
+   profilePopup.close();
+   console.log(data);
+}
+
+const profilePopup = new PopupWithForm('.popup_type_edit', saveProfilePopup);
+
+profilePopup.setEventListeners();
+editingProfile.addEventListener('click', () => {
+  profilePopup.open();
+});
 
 const elementsContent = contentPage.querySelector('.elements');
 const picPage = page.querySelector('.popup_type_pic');
@@ -106,7 +131,6 @@ closingPicPopup.addEventListener('click', closeImagePopup);
 
 //Универсальная функция создания карточки
 function createCard(data) {
-  console.log(data);
   const cardElement = new Card(data, '.template', openImagePopup);
   return cardElement.generateCard();
 }
@@ -125,12 +149,11 @@ const section = new Section(
   {
     items: initialCard,
     renderer: (item) => {
-      console.log(item);
       const cardCreated = createCard(item);
       section.addItem(cardCreated);
     }
   },
-  '.template'
+  '.elements'
 );
 
 section.renderItems();
