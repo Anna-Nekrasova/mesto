@@ -8,7 +8,7 @@ export default class Card {
 
     this._deleteElements = this._deleteElements.bind(this);
     this._likeElements = this._likeElements.bind(this);
-    this._openImage = this._openImage.bind(this);
+    //this._openImage = this._openImage.bind(this);
 }
 
 _getTemplate() {
@@ -49,7 +49,7 @@ _addEventListeners() {
     this._cardImage
     .addEventListener('click', () => this._handleCardClick({
         name: this._name,
-        link: this._link
+        link: this._link,
     }));
 }
 
