@@ -1,3 +1,4 @@
+import "./index.css";
 import { initialCard } from "../scripts/cards.js";
 import { obj } from "../scripts/validate.js";
 import Card from "../components/Card.js";
