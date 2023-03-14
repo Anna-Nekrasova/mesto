@@ -81,6 +81,7 @@ const newCardPopup = new PopupWithForm('.popup_type_new-card', saveNewCardPopup)
 newCardPopup.setEventListeners();
 additionProfile.addEventListener('click', () => {
   newCardPopup.open();
+  validatorNewCard.blockButton();
 })
 
 //Попап картинки
