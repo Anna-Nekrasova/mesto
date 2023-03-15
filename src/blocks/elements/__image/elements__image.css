@@ -4,6 +4,7 @@
     width: 282px;
     overflow: hidden;
     object-position: center;
+    min-height: 282px;
 }
 
 .elements__image:hover {
