@@ -42,3 +42,4 @@ export const titlePopup = contentNewCardPopup.querySelector('.popup__text_type_t
 export const linkPopup = contentNewCardPopup.querySelector('.popup__text_type_link');
 export const formNewCardPopup = newCardPage.querySelector('.popup__form');
 export const additionProfile = profile.querySelector('.profile__add');
+export const numberLikeElement = contentPage.querySelector('.elements__number');
