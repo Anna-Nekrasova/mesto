@@ -12,6 +12,8 @@ import {
   buttonSaveProfile,
   buttonSaveAvatar,
   buttonSaveCard,
+  baseUrl,
+  token
 } from "../scripts/constants.js";
 import { obj } from "../scripts/validate.js";
 import Card from "../components/Card.js";
@@ -22,6 +24,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserInfo.js";
 import Api from "../components/Api.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
+import { renderLoadingSave } from "./utils.js";
 
 //Валидация
 const validatorEditing = new FormValidator(obj, formPopup);
@@ -42,17 +45,7 @@ function downloadUserInfo(data) {
   });
 }
 
-const api = new Api;
-
-//Замена текста кнопки при загрузке
-function renderLoadingSave(isLoading, button, text) {
-  if (isLoading) {
-    button.textContent = 'Сохранение...';
-  }
-  else {
-    button.textContent = text;
-  }
-}
+const api = new Api(baseUrl, token);
 
 //Редактирование профиля
 const userInfo = new UserInfo({
@@ -72,11 +65,11 @@ function saveProfilePopup(data) {
       userAbout: newData.about,
       userAvatar: newData.avatar,
      });
+     profilePopup.close();
    })
     .finally(() => {
       renderLoadingSave(false, buttonSaveProfile, 'Сохранить');
     })
-   profilePopup.close();
 }
 
 const profilePopup = new PopupWithForm('.popup_type_edit', saveProfilePopup);
@@ -87,13 +80,16 @@ editingProfile.addEventListener('click', () => {
 });
 
 //Попап подтверждения удаления - открытие
-function deleteCardPopup() {
+function openConfirmationPopup() {
   confirmationPopup.open();
 }
 
 //Удаление/Добавление лайка (апи)
 function deleteOrAddLikeCard(method, id) {
-  return api.deleteOrAddLikeCard(method, id);
+  return api.deleteOrAddLikeCard(method, id)
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`);
+    });
 }
 
 //Универсальная функция создания карточки
@@ -104,7 +100,7 @@ function createCard(data) {
     currentUserId, 
     openImagePopup, 
     deleteOrAddLikeCard, 
-    deleteCardPopup
+    openConfirmationPopup
   );
 }
 
@@ -118,6 +114,9 @@ function openConfirmDeletePopup() {
 //Удаление карточки (апи)
 function deleteCard(cardId) {
     return api.deleteCard(cardId)
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
 }
 
 //Отрисовка карточек
@@ -141,11 +140,11 @@ const saveNewCardPopup = (data) => {
     .then((item) => {
       const contentNewCard = createCard(item)
       section.addItem(contentNewCard);
+      newCardPopup.close();
     })
     .finally(() => {
       renderLoadingSave(false, buttonSaveCard, 'Создать');
     })
-  newCardPopup.close();
 }
 
 const newCardPopup = new PopupWithForm('.popup_type_new-card', saveNewCardPopup);
@@ -165,12 +164,13 @@ function saveAvatarPopup(data) {
         userName: item.name,
         userAbout: item.about,
         userAvatar: item.avatar,
-       });
+      });
+      newAvatarPopup.close();
     })
     .finally(() => {
       renderLoadingSave(false, buttonSaveAvatar, 'Сохранить')
     })
-    newAvatarPopup.close();
+    
 }
 
 const newAvatarPopup = new PopupWithForm('.popup_type_avatar', saveAvatarPopup);
@@ -196,6 +196,9 @@ Promise.all([api.getDataCards(), api.getDataUserInfo()])
     currentUserId = user._id;
     console.log(items);
     console.log(user);
-    section.renderItems(items);
+    section.renderItems(items.reverse());
     downloadUserInfo(user);
   })
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`);
+  });

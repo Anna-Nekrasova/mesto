@@ -49,3 +49,6 @@ export const buttonOpenEditAvatar = infoProfile.querySelector('.profile__cover')
 export const buttonSaveProfile = editingPage.querySelector('.popup__save');
 export const buttonSaveAvatar = avatarPage.querySelector('.popup__save');
 export const buttonSaveCard = newCardPage.querySelector('.popup__save');
+
+export const baseUrl = 'https://mesto.nomoreparties.co/v1/cohort-61';
+export const token = 'bcc1a74c-1889-44aa-90fb-64902ff81902';

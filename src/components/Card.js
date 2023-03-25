@@ -1,12 +1,12 @@
 export default class Card {
-  constructor(initialCard, templateSelector, currentUserId, handleCardClick, deleteOrAddLikeCard, deleteCard) {
+  constructor(initialCard, templateSelector, currentUserId, handleCardClick, deleteOrAddLikeCard, openConfirmationPopup) {
     this._id = initialCard._id;
     this._name = initialCard.name;
     this._link = initialCard.link;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
     this._isOwner = initialCard.owner._id === currentUserId;
-    this._deleteCard = deleteCard;
+    this._openConfirmationPopup = openConfirmationPopup;
     this._likeCount = initialCard.likes.length;
     this._likes = initialCard.likes;
     this._element = this._getTemplate();
@@ -72,7 +72,7 @@ generateCard() {
 _addEventListeners() {
     this._element
     .querySelector('.elements__delete')
-    .addEventListener('click', () => {this._deleteCard});
+    .addEventListener('click', () => {this._openConfirmationPopup});
 
     this._likeButton
     .addEventListener('click', this._likeElements);
