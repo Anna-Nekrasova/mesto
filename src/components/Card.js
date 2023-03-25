@@ -16,7 +16,6 @@ export default class Card {
     this._isLikedByMyself = this._isLikedCardByUser(currentUserId);
     this._setLikeIfNeeded();
 
-    this._likeElements = this._likeElements.bind(this);
     this.deleteButton = this._element.querySelector('.elements__delete');
 }
 
@@ -42,11 +41,8 @@ _setLikeCount(count) {
     this._likeCountElements.textContent = count;
 }
 
-_removeCard() {
-    this._deleteCard(this._id)
-    .then(() => {
-        this._element.remove();
-    });
+removeCard() {
+    this._element.remove();
 }
 
 _getTemplate() {
@@ -79,10 +75,10 @@ generateCard() {
 _addEventListeners() {
     this._element
     .querySelector('.elements__delete')
-    .addEventListener('click', () => {this._openConfirmationPopup(this._element)});
+    .addEventListener('click', () => {this._openConfirmationPopup(this)});
 
     this._likeButton
-    .addEventListener('click', this._likeElements);
+    .addEventListener('click', () => {this._deleteOrAddLikeCard(this)});
 
     this._cardImage
     .addEventListener('click', () => this._handleCardClick({
@@ -91,16 +87,13 @@ _addEventListeners() {
     }));
 }
 
-_likeElements() {
-    const method = this._isLikedByMyself ? 'DELETE' : 'PUT';
-    this._deleteOrAddLikeCard(method, this._id)
-        .then((data) => {
-            this._toggleLike();
-            this._isLikedByMyself = !this._isLikedByMyself;
-            this._setLikeCount(data.likes.length);
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err}`);
-        })
+getMethodForLikeAction() {
+    return this._isLikedByMyself ? 'DELETE' : 'PUT';
+}
+
+deleteOrAddLikeAndSetLikeCount(count) {
+    this._toggleLike();
+    this._isLikedByMyself = !this._isLikedByMyself;
+    this._setLikeCount(count);
 }
 };

@@ -72,6 +72,7 @@ function saveProfilePopup(data) {
     })
 }
 
+//Попап редактирования профиля
 const profilePopup = new PopupWithForm('.popup_type_edit', saveProfilePopup);
 
 profilePopup.setEventListeners();
@@ -79,44 +80,31 @@ editingProfile.addEventListener('click', () => {
   profilePopup.open(userInfo.getUserInfo());
 });
 
-//Попап подтверждения удаления - открытие
-/*function openConfirmationPopup() {
-  confirmationPopup.open();
-}*/
-
 //Удаление/Добавление лайка (апи)
-function deleteOrAddLikeCard(method, id) {
-  return api.deleteOrAddLikeCard(method, id)
+function deleteOrAddLikeCard(card) {
+  return api.deleteOrAddLikeCard(card.getMethodForLikeAction(), card._id)
+    .then((data) => {
+      card.deleteOrAddLikeAndSetLikeCount(data.likes.length);
+    })
     .catch((err) => {
       console.log(`Ошибка: ${err}`);
     });
 }
 
-//Универсальная функция создания карточки
-/*function createCard(data) {
-  return new Card(
-    data, 
-    '.template', 
-    currentUserId, 
-    openImagePopup, 
-    deleteOrAddLikeCard, 
-    openConfirmationPopup
-  );
-}*/
-
+//Создание карточек
 function createCard(data) {
   const cardElement = new Card(data, 'template', currentUserId, openImagePopup, deleteOrAddLikeCard, openConfirmDeletePopup);
   return cardElement.generateCard();
 }
 
-//Попап Подтверждения удаления
+//Удаление карточек
 function openConfirmDeletePopup(card) {
   confirmationPopup.open();
   confirmationPopup.setAction(() => {
-    api.deleteCard(card.id)
+    api.deleteCard(card._id)
       .then(() => {
         card.removeCard();
-        confirmationPopup.open();
+        confirmationPopup.close();
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -124,31 +112,11 @@ function openConfirmDeletePopup(card) {
   })
 }
 
-const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation'/*, openConfirmDeletePopup*/);
+//Попап подтверждения удаления
+const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation');
 confirmationPopup.setEventListeners();
 
-
-//Удаление карточки (апи)
-/*function deleteCard(cardId) {
-    return api.deleteCard(cardId)
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
-}*/
-
 //Отрисовка карточек
-/*const section = new Section(
-  {
-      renderer: (item) => {
-          const cardCreated = createCard(item);
-          section.addItem(cardCreated);
-      }
-  },
-  '.elements',
-  openConfirmDeletePopup,
-  deleteCard
-);*/
-
 const section = new Section({
   renderer: (item) => {
     const cardCreated = createCard(item);
