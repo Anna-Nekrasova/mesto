@@ -1,14 +1,22 @@
 import Popup from './Popup.js';
  
 export default class PopupWithConfirmation extends Popup {
-  constructor(popupSelector) {
+  constructor(popupSelector/*, callbackSubmitForm*/) {
     super(popupSelector);
-    this._button = this._popup.querySelector('.popup__save');
+    //this._button = this._popup.querySelector('.popup__save');
+    //this._openConfirmDeletePopup = openConfirmDeletePopup;
+    this._popupForm = this._popup.querySelector('.popup__form');
+    //this._callbackSubmitForm = callbackSubmitForm;
   }
+
+  /*setEventListeners() {
+    super.setEventListeners;
+    this._button.addEventListener('click', () => {this._openConfirmDeletePopup});
+  }*/
  
   open() {
     super.open();
-    return new Promise((resolve, reject) => {
+    /*return new Promise((resolve, reject) => {
  
       this._button.addEventListener('click', () => {
         resolve(true);
@@ -28,6 +36,13 @@ export default class PopupWithConfirmation extends Popup {
         }
       });
  
-    });
+    });*/
+  }
+
+  setAction() {
+      this._popupForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+        //this._callbackSubmitForm();
+    })
   }
 }

@@ -1,23 +1,23 @@
 export default class Section {
-    constructor({renderer}, containerSelector, confirmPopupPromise, deleteCardPromise) {
+    constructor({renderer}, containerSelector/*, confirmPopupPromise, deleteCardPromise*/) {
       this._renderer = renderer;
-      this._cards = [];
+      //this._cards = [];
       this._container = document.querySelector(containerSelector);
-      this._confirmPopupPromise = confirmPopupPromise;
-      this._deleteCardPromise = deleteCardPromise;
+      //this._confirmPopupPromise = confirmPopupPromise;
+      //this._deleteCardPromise = deleteCardPromise;
     }
   
     addItem(card) {
-      this._cards.push(card);
-      this._container.prepend(card.generateCard());
-      this._addDeleteCardEvent(card);
+      //this._cards.push(card);
+      this._container.prepend(/*card.generateCard()*/card);
+      //this._addDeleteCardEvent(card);
     }
   
-    _deleteItem(card) {
+    /*_deleteItem(card) {
       const index = this._cards.indexOf(card);
       this._cards.splice(index, 1);
       this._container.removeChild(card.generateCard());
-    }
+    }*/
   
     renderItems(items) {
       items.forEach((item) => {
@@ -25,7 +25,7 @@ export default class Section {
       })
     }
   
-    _addDeleteCardEvent(card) {
+    /*_addDeleteCardEvent(card) {
       card.deleteButton.addEventListener('click', () => {
         this._deleteCard(card);
       });
@@ -46,5 +46,5 @@ export default class Section {
               })
           }
         });
-    }
+    }*/
   }

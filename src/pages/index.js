@@ -80,9 +80,9 @@ editingProfile.addEventListener('click', () => {
 });
 
 //Попап подтверждения удаления - открытие
-function openConfirmationPopup() {
+/*function openConfirmationPopup() {
   confirmationPopup.open();
-}
+}*/
 
 //Удаление/Добавление лайка (апи)
 function deleteOrAddLikeCard(method, id) {
@@ -93,7 +93,7 @@ function deleteOrAddLikeCard(method, id) {
 }
 
 //Универсальная функция создания карточки
-function createCard(data) {
+/*function createCard(data) {
   return new Card(
     data, 
     '.template', 
@@ -102,25 +102,42 @@ function createCard(data) {
     deleteOrAddLikeCard, 
     openConfirmationPopup
   );
+}*/
+
+function createCard(data) {
+  const cardElement = new Card(data, 'template', currentUserId, openImagePopup, deleteOrAddLikeCard, openConfirmDeletePopup);
+  return cardElement.generateCard();
 }
 
 //Попап Подтверждения удаления
-const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation');
-confirmationPopup.setEventListeners();
-function openConfirmDeletePopup() {
-    return confirmationPopup.open();
+function openConfirmDeletePopup(card) {
+  confirmationPopup.open();
+  confirmationPopup.setAction(() => {
+    api.deleteCard(card.id)
+      .then(() => {
+        card.removeCard();
+        confirmationPopup.open();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  })
 }
 
+const confirmationPopup = new PopupWithConfirmation('.popup_type_confirmation'/*, openConfirmDeletePopup*/);
+confirmationPopup.setEventListeners();
+
+
 //Удаление карточки (апи)
-function deleteCard(cardId) {
+/*function deleteCard(cardId) {
     return api.deleteCard(cardId)
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       });
-}
+}*/
 
 //Отрисовка карточек
-const section = new Section(
+/*const section = new Section(
   {
       renderer: (item) => {
           const cardCreated = createCard(item);
@@ -130,7 +147,14 @@ const section = new Section(
   '.elements',
   openConfirmDeletePopup,
   deleteCard
-);
+);*/
+
+const section = new Section({
+  renderer: (item) => {
+    const cardCreated = createCard(item);
+    section.addItem(cardCreated);
+  }
+}, '.elements');
 
 
 //Попап добавления карточки

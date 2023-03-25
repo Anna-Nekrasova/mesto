@@ -42,6 +42,13 @@ _setLikeCount(count) {
     this._likeCountElements.textContent = count;
 }
 
+_removeCard() {
+    this._deleteCard(this._id)
+    .then(() => {
+        this._element.remove();
+    });
+}
+
 _getTemplate() {
     const templateContent = document
     .querySelector(this._templateSelector)
@@ -72,7 +79,7 @@ generateCard() {
 _addEventListeners() {
     this._element
     .querySelector('.elements__delete')
-    .addEventListener('click', () => {this._openConfirmationPopup});
+    .addEventListener('click', () => {this._openConfirmationPopup(this._element)});
 
     this._likeButton
     .addEventListener('click', this._likeElements);
